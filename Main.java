@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -9,80 +8,178 @@ public class Main {
         System.out.println("Приветствую тебя в программе \"Бинарный конвертер\".");
         System.out.println("Введи число через запятую и конвертер выведет тебе,");
         System.out.println("как число хранится в бирном виде.");
+        System.out.println("При вводе слишком больших по модулю чисел, возможны искажения");
+        
         String input = "";
         double num;
         while (true) {
             try {
                 input = sc.nextLine().replace(",", ".");
+                if (input.contains("E")) throw new NumberFormatException();//case if it is float or double e.g. 34.34E+23
                 num = Double.parseDouble(input);
-                if (  Long.parseLong(input)!=(long)num){
-                    System.out.println("prooooblem!!!!!!!");
-                }
+
                 break;
             } catch (NumberFormatException e) {
-                System.out.printf("вы ввели \"%s\", это не является числом!\nПопробуйте снова.\n", input);
+                System.out.printf("Вы ввели \"%s\", это не является числом (или содержит E)!\nПопробуйте снова.\n", input);
             }
         }
 
-
-        if ((num < 0 ? -num : num) % 1 > 0.00000000000001)
-            chooseTypeDouble(num, input);
-        else {
-            chooseTypeInteger(num, input);
-            chooseTypeDouble(num, input);
-        }
-
+        chooseType(num, input);
 
     }
 
-    /**method calls all types with point
-     * @param num double argument
-     * @param input String input argument
-     */
-    static void chooseTypeDouble(double num, String input) {
-        if (num >= -Float.MAX_VALUE && num <= Float.MAX_VALUE) {
-            num((float) num, input);
-        }
-        num(num, input);
-
-    }
-
-    /**method calls all types without integer part
+    /**choose in what type user wants to see representation of number
      *
-     * @param num double argument
+     * @param num double num parsed from input
+     * @param input string line
      */
-    static void chooseTypeInteger(double num, String input) {
-        //i convert input to num because double has problems in saving big data
+    static void chooseType(double num, String input){
 
+        System.out.println("Введите номер или название типа,\nв котором хотите получить бинаное представление числа.");
+        System.out.println("1 - byte");
+        System.out.println("2 - short");
+        System.out.println("3 - int");
+        System.out.println("4 - long");
+        System.out.println("5 - float");
+        System.out.println("6 - double");
+        System.out.println("7 - все возможные");
+
+        Scanner sc = new Scanner(System.in);
+        String type = sc.nextLine();
+
+        boolean flag = false;
+        while(!flag){
+            switch (type){
+                case "7":
+                case "все возможные":
+                    if ((num < 0 ? -num : num) % 1 > 0.00000000000000001) {
+                        checkFloat(num, input);
+                        num(num, input);
+                    }
+                    else {
+                        checkByte(num, input);
+                        checkShort(num, input);
+                        checkInt(num, input);
+                        checkLong(num, input);
+                        checkFloat(num, input);
+                        num(num, input);
+                    }
+                    break;
+
+                case "1":
+                case "byte":
+                    checkByte(num, input);
+                    break;
+
+                case "2":
+                case "short":
+                    checkShort(num, input);
+                    break;
+
+                case "3":
+                case "int":
+                    checkInt(num, input);
+                    break;
+
+                case "4":
+                case "long":
+                    checkLong(num, input);
+                    break;
+
+                case "5":
+                case "float":
+                    checkFloat(num, input);
+                    break;
+
+                case "6":
+                case "double":
+                    num(num, input);
+                    break;
+
+                default:
+                    System.out.println("Вы ввели невеные данные, ваш ввод: "+input);
+                    System.out.println("Повторите ввод");
+                    type = sc.nextLine();
+                    continue;
+            }
+            flag = true;
+        }
+    }
+
+    /**checks if it is possible to save num in float
+     *
+     * @param num double num parsed from input
+     * @param input string input
+     */
+    static void checkFloat(double num, String input) {
+        if (num >= -Float.MAX_VALUE && num <= Float.MAX_VALUE) {
+            try{
+               float a = Float.parseFloat(input);
+                num(a, input);
+            }catch (NumberFormatException e){
+                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности", "float");
+            }
+        }
+    }
+
+    /**checks if it is possible to save num in byte
+     *
+     * @param num double num parsed from input
+     * @param input string input
+     */
+    static void checkByte(double num, String input){
         if (num >= Byte.MIN_VALUE && num <= Byte.MAX_VALUE)
             try {
-                byte a = Byte.parseByte(input);
+                byte a = Byte.parseByte(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-
+                System.out.printf("%6s : Данное число не помещается в 8 бит без потери точности", "byte");
             }
+    }
+
+    /**checks if it is possible to save num in short
+     *
+     * @param num double num parsed from input
+     * @param input string input
+     */
+    static void checkShort(double num, String input){
         if (num >= Short.MIN_VALUE && num <= Short.MAX_VALUE)
             try {
-                short a = Short.parseShort(input);
+                short a = Short.parseShort(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-
+                System.out.printf("%6s : Данное число не помещается в 16 бит без потери точности", "short");
             }
+    }
+
+    /**checks if it is possible to save num in int
+     *
+     * @param num double num parsed from input
+     * @param input string input
+     */
+    static void checkInt(double num, String input){
         if (num >= Integer.MIN_VALUE && num <= Integer.MAX_VALUE)
             try {
-                int a = Integer.parseInt(input);
+                int a = Integer.parseInt(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-
+                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности", "int");
             }
+    }
+
+    /**checks if it is possible to save num in long
+     *
+     * @param num double num parsed from input
+     * @param input string input
+     */
+    static void checkLong(double num, String input){
         if (num >= Long.MIN_VALUE && num <= Long.MAX_VALUE)
             try {
-                long a = Long.parseLong(input);
+                long a = Long.parseLong(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-
+                System.out.printf("%6s : Данное число не помещается в 64 бита без потери точности", "long");
             }
-
     }
 
 
@@ -95,6 +192,7 @@ public class Main {
      */
     static void num(double num, String input) {
         String binaryStr = "";
+
 
         //sight 0 if num is positive, 1 if negative
         if (num >= 0) {
@@ -122,7 +220,7 @@ public class Main {
             int mantis = 52 - binaryDecimalNum.length(); //as we already wrote decimal part to mantis
 
 //write exact after point number to num
-            if (input.contains(".") || Double.toString(num).contains(".")) {
+            if (input.contains(".") || ((num < 0 ? -num : num) % 1 > 0.00000000000000001)) {
                 binaryStr+=mantis(input, mantis);
             } else {
                 binaryStr = String.format("%s" + "%0" + (mantis) + "d", binaryStr, 0);
@@ -186,7 +284,7 @@ public class Main {
 
 
                 //write exact after point number to num
-                if (input.contains(".")) {
+                if (input.contains(".") || ((num < 0 ? -num : num) % 1 > 0.00000000000000001)) {
                     binaryStr = mantis(input, 23 - binaryDecimalNum.length());//as we already wrote decimal part to mantis
                 } else {
                     binaryStr = String.format("%s" + "%0" + (23 - binaryDecimalNum.length()) + "d", binaryStr, 0);//as we already wrote decimal part to mantis
@@ -244,6 +342,7 @@ public class Main {
         }
         return pointPart;
     }
+
 
     static void num(long num) {
         String binaryStr = "";
