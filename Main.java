@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Main {
@@ -9,7 +10,6 @@ public class Main {
         System.out.println("Введи число через запятую и конвертер выведет тебе,");
         System.out.println("как число хранится в бирном виде.");
         System.out.println("При вводе слишком больших по модулю чисел, возможны искажения");
-        
         String input = "";
         double num;
         while (true) {
@@ -117,7 +117,7 @@ public class Main {
                float a = Float.parseFloat(input);
                 num(a, input);
             }catch (NumberFormatException e){
-                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности", "float");
+                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности\n", "float");
             }
         }
     }
@@ -133,7 +133,7 @@ public class Main {
                 byte a = Byte.parseByte(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-                System.out.printf("%6s : Данное число не помещается в 8 бит без потери точности", "byte");
+                System.out.printf("%6s : Данное число не помещается в 8 бит без потери точности\n", "byte");
             }
     }
 
@@ -148,7 +148,7 @@ public class Main {
                 short a = Short.parseShort(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-                System.out.printf("%6s : Данное число не помещается в 16 бит без потери точности", "short");
+                System.out.printf("%6s : Данное число не помещается в 16 бит без потери точности\n", "short");
             }
     }
 
@@ -163,7 +163,7 @@ public class Main {
                 int a = Integer.parseInt(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности", "int");
+                System.out.printf("%6s : Данное число не помещается в 32 бита без потери точности\n", "int");
             }
     }
 
@@ -178,7 +178,7 @@ public class Main {
                 long a = Long.parseLong(input);//to avoid double incorrect storage
                 num(a);
             }catch (NumberFormatException e){
-                System.out.printf("%6s : Данное число не помещается в 64 бита без потери точности", "long");
+                System.out.printf("%6s : Данное число не помещается в 64 бита без потери точности\n", "long");
             }
     }
 
