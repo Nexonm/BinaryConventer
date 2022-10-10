@@ -7,8 +7,8 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Приветствую тебя в программе \"Бинарный конвертер\".");
-        System.out.println("Введи число через запятую и конвертер выведет тебе,");
-        System.out.println("как число хранится в бирном виде.");
+        System.out.println("Введи число (если с дробной частью, то через запятую) и конвертер выведет тебе,");
+        System.out.println("как число хранится в бинарном виде.");
         System.out.println("При вводе слишком больших по модулю чисел, возможны искажения");
         String input = "";
         double num;
